@@ -1,11 +1,12 @@
 const canvas=document.getElementById('canvas');
 const pen=canvas.getContext('2d');
-pen.fillStyle='#F0A202';
+
 
 
 const cellSize=67;
 const w=1200;
 const h=735;
+let food=null;
 //top left is (0,0) 
 //(x,y,width,height)
 // pen.fillRect(100,100,190,90);
@@ -25,7 +26,7 @@ const snake={
     },
 
     drawSnake: function(){
-
+        pen.fillStyle='#F0A202';
         for(let cell of this.cells){
             pen.fillRect(cellSize*cell.x,cellSize*cell.y,cellSize-1,cellSize-1);
         }
@@ -58,8 +59,9 @@ const snake={
 
 
 function init(){
-    
+
     snake.createSnake();
+    food=getFood();
 
     function keypressed(e){
         const arrow=e.key;
@@ -79,6 +81,8 @@ function update(){
 
 function draw(){
     pen.clearRect(0,0,w,h);
+    pen.fillStyle='#C51605'
+    pen.fillRect(cellSize*food.x,cellSize*food.y,cellSize,cellSize);
     snake.drawSnake();
 }
 
@@ -86,6 +90,18 @@ function gameLoop(){
     console.log('game loop');
     update();
     draw();
+}
+
+function getFood(){
+    const foodX=Math.round((Math.random()*(w-cellSize))/cellSize); 
+    const foodY=Math.round((Math.random()*(h-cellSize))/cellSize);
+
+    food={
+        x:foodX,
+        y:foodY
+    };
+
+    return food;
 }
 
 init();
