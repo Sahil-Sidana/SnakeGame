@@ -32,24 +32,45 @@ const snake={
     },
 
     updateSnake: function(){
-
+        
         const headX=this.cells[this.cells.length-1].x;
         const headY=this.cells[this.cells.length-1].y;
-        const nextX=headX+1;
-        const nextY=headY;
+        let nextX=headX+1;
+        let nextY=headY;
 
-        this.cells.shift();
+        if(this.direction=='left') nextX=headX-1;
+        else if(this.direction=='up'){
+            nextX=headX;
+            nextY=headY-1;
+        }
+        else if(this.direction=='down'){
+            nextX=headX;
+            nextY=headY+1;
+        }
         this.cells.push({
             x:nextX,
             y:nextY
         });
+        this.cells.shift();
         
     }
 }
 
 
 function init(){
+    
     snake.createSnake();
+
+    function keypressed(e){
+        const arrow=e.key;
+
+        if(arrow==='ArrowDown') snake.direction='down';
+        else if(arrow==='ArrowUp') snake.direction='up';
+        else if(arrow==='ArrowLeft') snake.direction='left';
+        else if(arrow==='ArrowRight') snake.direction='right';
+    }
+
+    document.addEventListener('keydown',keypressed);
 }
 
 function update(){
