@@ -1,24 +1,46 @@
 const canvas=document.getElementById('canvas');
 const pen=canvas.getContext('2d');
-pen.fillStyle='yellow';
+pen.fillStyle='white';
 
-let init_x=50,init_y=50;
 
+const cellSize=67;
 //top left is (0,0) 
 //(x,y,width,height)
 // pen.fillRect(100,100,190,90);
 
+const snake={
+    init_len:5,
+    direction:'right',
+    cells:[],
+
+    createSnake: function(){
+        for(let i=0;i<this.init_len;i++){
+            this.cells.push({
+                x:i,
+                y:0
+            })
+        }
+    },
+
+    drawSnake: function(){
+
+        for(let cell of this.cells){
+            pen.fillRect(cellSize*cell.x,cellSize*cell.y,cellSize-1,cellSize-1);
+        }
+    }
+}
+
+
 function init(){
-    pen.fillRect(init_x,init_y,50,50);
+    snake.createSnake();
 }
 
 function update(){
-    init_x+=50;
+    // init_x+=50;
 }
 
 function draw(){
-    pen.clearRect(0,0,1200,735);
-    pen.fillRect(init_x,init_y,50,50);
+    snake.drawSnake();
 }
 
 function gameLoop(){
